@@ -82,7 +82,7 @@ public class ThuongMaiDienTuController : Controller
                             ctnew.CaThiName = caThi;
                             ctnew.MaxValue = 80;
                             ctnew.RegistedValue = 1;
-                            ctnew.Subject = "THVPNC";
+                            ctnew.Subject = "TMDT";
                             _context.CaThi.Add(ctnew);
                             await _context.SaveChangesAsync();
                             ViewBag.thongBao = "Đăng ký thi thành công";
@@ -125,7 +125,7 @@ public class ThuongMaiDienTuController : Controller
             dkt.SubjectGroup = sgroup;
             dkt.IsActive = true;
             dkt.CaThi = cthi;
-            dkt.Subject = "THVPNC";
+            dkt.Subject = "TMDT";
             _context.DangKyThi.Add(dkt);
             _context.SaveChangesAsync();
             return true;
@@ -164,7 +164,7 @@ public class ThuongMaiDienTuController : Controller
         return str;    
     }
     private void DisplayNumberRegisted(){
-        var cathiList = _context.CaThi.OrderBy(m => m.CaThiName).Where(m => m.Subject == "THVPNC").ToList();
+        var cathiList = _context.CaThi.OrderBy(m => m.CaThiName).Where(m => m.Subject == "TMDT").ToList();
         if(cathiList.Count > 0){
             var ca1 = cathiList.Where(m => m.CaThiName == "Ca1").FirstOrDefault();
             if(ca1!=null){
@@ -193,34 +193,6 @@ public class ThuongMaiDienTuController : Controller
             }
             else{
                 ViewBag.ca4 = "Chưa có Sinh Viên đăng ký";
-            }
-            var ca5 = cathiList.Where(m => m.CaThiName == "Ca5").FirstOrDefault();
-            if(ca5!=null){
-                ViewBag.ca5 = ca5.RegistedValue + "/" +ca5.MaxValue + " SV đã đăng ký";
-            }
-            else{
-                ViewBag.ca5 = "Chưa có Sinh Viên đăng ký";
-            }
-            var ca6 = cathiList.Where(m => m.CaThiName == "Ca6").FirstOrDefault();
-            if(ca6!=null){
-                ViewBag.ca6 = ca6.RegistedValue + "/" +ca6.MaxValue + " SV đã đăng ký";
-            }
-            else{
-                ViewBag.ca6 = "Chưa có Sinh Viên đăng ký";
-            }
-            var ca7 = cathiList.Where(m => m.CaThiName == "Ca7").FirstOrDefault();
-            if(ca7!=null){
-                ViewBag.ca7 = ca7.RegistedValue + "/" +ca7.MaxValue + " SV đã đăng ký";
-            }
-            else{
-                ViewBag.ca7 = "Chưa có Sinh Viên đăng ký";
-            }
-            var ca8 = cathiList.Where(m => m.CaThiName == "Ca8").FirstOrDefault();
-            if(ca7!=null){
-                ViewBag.ca8 = ca8.RegistedValue + "/" +ca8.MaxValue + " SV đã đăng ký";
-            }
-            else{
-                ViewBag.ca8 = "Chưa có Sinh Viên đăng ký";
             }
         }
     }
