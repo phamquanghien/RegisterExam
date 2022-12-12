@@ -1,0 +1,73 @@
+@model IEnumerable<Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Danh sách sinh viên</h1>
+
+<form asp-controller="Student" asp-action="Index">
+    <p>
+        <select name="studentSubject">
+            <option value="01">Nhóm 150</option>
+            <option value="02">Nhóm 151</option>
+            <option value="03">Nhóm 152</option>
+            <option value="04">Nhóm 153</option>
+            <option value="05">Nhóm 154</option>
+            <option value="06">Nhóm 155</option>
+            <option value="07">Nhóm 156</option>
+            <option value="08">Nhóm 157</option>
+            <option value="09">Nhóm 200</option>
+        </select>
+        <select name="Subject">
+            <option value="THVPNC">Tin học Văn phòng Nâng cao</option>
+            <option value="QTDACNTT">Quản trị Dự án CNTT</option>
+            <option value="TMDT">Thương mại Điện tử</option>
+        </select>    
+        <input type="submit" value="Get data" />
+    </p>
+</form>
+@{int i = 0;}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                STT
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectGroup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+            i=i+1;
+            <tr>
+                <td>
+                    @i
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectGroup)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

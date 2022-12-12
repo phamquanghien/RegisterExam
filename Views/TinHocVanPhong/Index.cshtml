@@ -1,0 +1,87 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <h1>Sinh viên chú ý:</h1>
+    <h2>- Sử dụng email HUMG để truy cập vào dự thi => Bạn nào quên mật khẩu thì cần lấy lại trước ngày thi</h2>
+    <h2>- Địa điểm thi kết thúc học phần môn Tin học Văn phòng Nâng cao: Phòng máy tính tầng 5 nhà C 12 tầng</h2>
+    <h2>- Ngày thi: 06/01/2023</h2>
+</div>
+<hr/>
+<div class="row">
+    <h3>@ViewBag.thongBao</h3>
+    <form asp-action="Index">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <label>Mã sinh viên:</label>
+                    <input required name="studentID" />
+                </div>
+                <div class="row">
+                    <label>Họ tên sinh viên:</label>
+                    <input required name="studentName" />
+                </div>
+                <div class="row">
+                    <label>Nhóm môn học của bạn:</label>
+                    <select class="form-select" name="subjectGroup">
+                        <option value="150">Nhóm 150</option>
+                        <option value="151">Nhóm 151</option>
+                        <option value="152">Nhóm 152</option>
+                        <option value="153">Nhóm 153</option>
+                        <option value="154">Nhóm 154</option>
+                        <option value="155">Nhóm 155</option>
+                        <option value="156">Nhóm 156</option>
+                        <option value="157">Nhóm 157</option>
+                        <option value="200">Nhóm 200</option>
+                    </select>
+                </div>
+            </div>
+            <br/>
+            <div class="col-md-7">
+                <p>Chọn ca thi:</p>
+                <div class="row">
+                    <input class="col-md-1" type="radio" name="caThi" value="Ca1">
+                    <label class="col-md-6" for="html">Ca 1 (Thời gian: 8:00 AM - 8:50AM)</label> @ViewBag.ca1
+                </div>
+                <div class="row">
+                    <input class="col-md-1" type="radio" name="caThi" value="Ca2">
+                    <label class="col-md-6" for="html">Ca 2 (Thời gian: 9:00 AM - 9:50AM)</label> @ViewBag.ca2
+                </div>
+                <div class="row">
+                    <input class="col-md-1" type="radio" name="caThi" value="Ca3">
+                    <label class="col-md-6" for="html">Ca 3 (Thời gian: 10:00 AM - 10:50AM)</label> @ViewBag.ca3
+                </div>
+                <div class="row">
+                    <input class="col-md-1" type="radio" name="caThi" value="Ca4">
+                    <label class="col-md-6" for="html">Ca 4 (Thời gian: 11:00 AM - 11:50AM)</label> @ViewBag.ca4
+                </div>
+                <div class="row">
+                    <input class="col-md-1" type="radio" name="caThi" value="Ca5">
+                    <label class="col-md-6" for="html">Ca 5 (Thời gian: 13:30 PM - 14:20PM)</label> @ViewBag.ca5
+                </div>
+                <div class="row">
+                    <input class="col-md-1" type="radio" name="caThi" value="Ca6">
+                    <label class="col-md-6" for="html">Ca 6 (Thời gian: 14:30 PM - 15:20PM)</label> @ViewBag.ca6
+                </div>
+                <div class="row">
+                    <input class="col-md-1" type="radio" name="caThi" value="Ca7">
+                    <label class="col-md-6" for="html">Ca 7 (Thời gian: 15:30 PM - 16:20PM)</label> @ViewBag.ca7
+                </div>
+                <div class="row">
+                    <input class="col-md-1" type="radio" name="caThi" value="Ca8">
+                    <label class="col-md-6" for="html">Ca 8 (Thời gian: 16:30 PM - 17:20PM)</label> @ViewBag.ca8
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="row form-group col-md-2">
+            <input type="submit" value="Đăng ký" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
