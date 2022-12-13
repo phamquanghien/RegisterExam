@@ -1,0 +1,41 @@
+@model DangKyThi
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 id="ThongBao">Chuyển ca thi</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input id="studentID" type="hidden" asp-for="StudentID" />
+            <input type="hidden" asp-for="FirstName" />
+            <input type="hidden" asp-for="LastName" />
+            <input id="fullName" type="hidden" asp-for="FullName" />
+            <input type="hidden" asp-for="SubjectGroup" />
+            <input id="Subject" type="hidden" asp-for="Subject" />
+            <input id="CaThi" type="hidden" asp-for="CaThi" />
+            <input type="hidden" class="form-check-input" asp-for="IsActive" />
+            
+            <div class="form-group">
+                <input class="w3-input w3-border w3-round" type="password" name="SecurityKey" placeholder="Nhập khoá bảo mật">
+            </div>
+            <br>
+            <select class="form-select" id="MySelect" name="CaThi" onchange="genderChanged(this)">
+            </select>
+            <br>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-success" asp-action="Index">Quay lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/MyJS.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

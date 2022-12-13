@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 public class Student
 {
     [Key]
+    public Guid ID { get; set; }
     public string StudentID { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }

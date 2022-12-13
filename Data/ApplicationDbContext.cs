@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-public class ApplicationDbContext : DbContext
+namespace JavaExamFinal.Data
+{
+    public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext (DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -10,3 +12,4 @@ public class ApplicationDbContext : DbContext
         public DbSet<Student>? Student { get; set; }
         public DbSet<DangKyThi>? DangKyThi { get; set; }
     }
+}

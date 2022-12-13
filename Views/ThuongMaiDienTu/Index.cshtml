@@ -5,7 +5,7 @@
 <div>
     <h1>Sinh viên chú ý:</h1>
     <h2>- Sử dụng email HUMG để truy cập vào dự thi => Bạn nào quên mật khẩu thì cần lấy lại trước ngày thi</h2>
-    <h2>- Địa điểm thi kết thúc học phần môn Tin học Văn phòng Nâng cao: Phòng máy tính tầng 5 nhà C 12 tầng</h2>
+    <h2>- Địa điểm thi kết thúc học phần môn Thương mại Điện tử: Phòng máy tính tầng 5 nhà C 12 tầng</h2>
     <h2>- Ngày thi: 07/01/2023</h2>
 </div>
 <hr/>
@@ -14,18 +14,18 @@
     <form asp-action="Index">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
-            <div class="col-md-4">
-                <div class="row">
+            <div class="col-md-3">
+                <div class="row w3-margin-bottom">
                     <label>Mã sinh viên:</label>
-                    <input required name="studentID" />
+                    <input class="w3-input w3-border w3-round" required name="studentID" />
                 </div>
-                <div class="row">
+                <div class="row w3-margin-bottom">
                     <label>Họ tên sinh viên:</label>
-                    <input required name="studentName" />
+                    <input class="w3-input w3-border w3-round" required name="studentName" />
                 </div>
                 <div class="row">
                     <label>Nhóm môn học của bạn:</label>
-                    <select class="form-select" name="subjectGroup">
+                    <select class="form-select w3-large" name="subjectGroup">
                         <option value="150">Nhóm 150</option>
                         <option value="151">Nhóm 151</option>
                         <option value="152">Nhóm 152</option>
@@ -36,23 +36,29 @@
                 </div>
             </div>
             <br/>
-            <div class="col-md-7">
-                <p>Chọn ca thi:</p>
+            <div class="col-md-8">
                 <div class="row">
-                    <input class="col-md-1" type="radio" name="caThi" value="Ca1">
-                    <label class="col-md-6" for="html">Ca 1 (Thời gian: 8:00 AM - 8:50AM)</label> @ViewBag.ca1
+                    <p>Chọn ca thi:</p>
                 </div>
-                <div class="row">
-                    <input class="col-md-1" type="radio" name="caThi" value="Ca2">
-                    <label class="col-md-6" for="html">Ca 2 (Thời gian: 9:00 AM - 9:50AM)</label> @ViewBag.ca2
-                </div>
-                <div class="row">
-                    <input class="col-md-1" type="radio" name="caThi" value="Ca3">
-                    <label class="col-md-6" for="html">Ca 3 (Thời gian: 10:00 AM - 10:50AM)</label> @ViewBag.ca3
-                </div>
-                <div class="row">
-                    <input class="col-md-1" type="radio" name="caThi" value="Ca4">
-                    <label class="col-md-6" for="html">Ca 4 (Thời gian: 11:00 AM - 11:50AM)</label> @ViewBag.ca4
+                <div class="row w3-large">
+                    <div class="col-md-12">
+                        <div class="row w3-margin-bottom">
+                            <input class="col-md-1" type="radio" name="caThi" value="Ca1">
+                            <label class="col-md-11" for="html">Ca 1 (Thời gian: 8:00 AM - 8:50AM)</label> @ViewBag.ca1
+                        </div>
+                        <div class="row w3-margin-bottom">
+                            <input class="col-md-1" type="radio" name="caThi" value="Ca2">
+                            <label class="col-md-11" for="html">Ca 2 (Thời gian: 9:00 AM - 9:50AM)</label> @ViewBag.ca2
+                        </div>
+                        <div class="row w3-margin-bottom">
+                            <input class="col-md-1" type="radio" name="caThi" value="Ca3">
+                            <label class="col-md-11" for="html">Ca 3 (Thời gian: 10:00 AM - 10:50AM)</label> @ViewBag.ca3
+                        </div>
+                        <div class="row w3-margin-bottom">
+                            <input class="col-md-1" type="radio" name="caThi" value="Ca4">
+                            <label class="col-md-11" for="html">Ca 4 (Thời gian: 11:00 AM - 11:50AM)</label> @ViewBag.ca4
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

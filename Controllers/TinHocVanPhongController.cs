@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using JavaExamFinal.Models;
+using JavaExamFinal.Data;
 
 namespace JavaExamFinal.Controllers;
 
@@ -57,9 +58,8 @@ public class TinHocVanPhongController : Controller
             }
             else if(String.Compare(LocDau(std.FullName.Trim()),LocDau(studentName), true)!=0){
                 ModelState.AddModelError("", "Họ tên sinh viên không chính xác.");
-                ModelState.AddModelError("", "-" + LocDau(std.FullName.Trim())+ "-" + LocDau(studentName)+"-");
             }
-            else if(subGroup.IndexOf(subjectGroup)<0 || String.Compare(std.SubjectGroup, subjectGroup,true)!=0 || subjectGroup.Length != 2){
+            else if(subGroup.IndexOf(subjectGroup)<0 || String.Compare(std.SubjectGroup, subjectGroup,true)!=0 || subjectGroup.Length != 3){
                 ModelState.AddModelError("", "Nhóm môn học không chính xác.");
             }
             else if(ct.IndexOf(caThi)<0 || caThi.Length != 3){

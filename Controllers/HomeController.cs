@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using JavaExamFinal.Models;
+using JavaExamFinal.Data;
 
 namespace JavaExamFinal.Controllers;
 
