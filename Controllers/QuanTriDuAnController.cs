@@ -48,7 +48,7 @@ public class QuanTriDuAnController : Controller
             subjectGroup = subjectGroup.Trim();
             caThi = caThi.Trim();
         }
-        var std = await _context.Student.FindAsync(studentID);
+        var std = _context.Student.Where(m => m.StudentID == studentID).FirstOrDefault();
         if(std == null){
             ModelState.AddModelError("", "Mã sinh viên không chính xác");
         }
@@ -58,16 +58,15 @@ public class QuanTriDuAnController : Controller
             }
             else if(String.Compare(LocDau(std.FullName.Trim()),LocDau(studentName), true)!=0){
                 ModelState.AddModelError("", "Họ tên sinh viên không chính xác.");
-                ModelState.AddModelError("", "-" + LocDau(std.FullName.Trim())+ "-" + LocDau(studentName)+"-");
             }
-            else if(subGroup.IndexOf(subjectGroup)<0 || String.Compare(std.SubjectGroup, subjectGroup,true)!=0 || subjectGroup.Length != 2){
+            else if(subGroup.IndexOf(subjectGroup)<0 || String.Compare(std.SubjectGroup, subjectGroup,true)!=0 || subjectGroup.Length != 3){
                 ModelState.AddModelError("", "Nhóm môn học không chính xác.");
             }
             else if(ct.IndexOf(caThi)<0 || caThi.Length != 3){
                 ModelState.AddModelError("", "Ca thi không chính xác." + caThi + "-" + ct.IndexOf(caThi) + "-" + caThi.Length);
             }
             else{
-                var stdRegisted = await _context.DangKyThi.FindAsync(studentID);
+                var stdRegisted = _context.DangKyThi.Where(m => m.StudentID == studentID).FirstOrDefault();
                 if(stdRegisted != null) {
                     ModelState.AddModelError("", "Sinh viên đã đăng ký ca thi");
                 }

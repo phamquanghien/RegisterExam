@@ -24,9 +24,31 @@ namespace JavaExamFinal.Controllers
         // GET: Admin
         public async Task<IActionResult> Index()
         {
+            // var models = await _context.DangKyThi.Where(m => m.Subject == "THVPNC" && m.SubjectGroup == "Ca1").ToListAsync();
+            //         return View(models);
               return _context.DangKyThi != null ? 
-                          View(await _context.DangKyThi.ToListAsync()) :
+                          View(await _context.DangKyThi.Take(20).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.DangKyThi'  is null.");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(string Subject, string CaThi)
+        {
+            if(string.IsNullOrEmpty(Subject)) ModelState.AddModelError("", "Vui lòng chọn học phần để tìm thông tin");
+            else
+            {
+                if(string.IsNullOrEmpty(CaThi))
+                {
+                    ModelState.AddModelError("", "Vui lòng chọn nhóm môn học để tìm thông tin");
+                    return View(await _context.DangKyThi.Where(m => m.Subject == "ZZZ").ToListAsync());
+                }
+                else
+                {
+                    var models = await _context.DangKyThi.Where(m => m.Subject == Subject && m.CaThi == CaThi).ToListAsync();
+                    return View(models);
+                }
+            }
+            return View(await _context.DangKyThi.Where(m => m.Subject == "ZZZ").ToListAsync());
         }
 
         // GET: Admin/Create
@@ -40,7 +62,7 @@ namespace JavaExamFinal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string SecurityKey, [Bind("StudentID,FirstName,LastName,FullName,SubjectGroup,IsActive,CaThi,Subject")] DangKyThi dangKyThi)
+        public async Task<IActionResult> Create(string SecurityKey, [Bind("ID,StudentID,FirstName,LastName,FullName,SubjectGroup,IsActive,CaThi,Subject")] DangKyThi dangKyThi)
         {
             if(string.IsNullOrEmpty(SecurityKey))
             {
@@ -61,7 +83,7 @@ namespace JavaExamFinal.Controllers
         }
 
         // GET: Admin/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null || _context.DangKyThi == null)
             {
@@ -81,9 +103,9 @@ namespace JavaExamFinal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, string SecurityKey, [Bind("StudentID,FirstName,LastName,FullName,SubjectGroup,IsActive,CaThi,Subject")] DangKyThi dangKyThi)
+        public async Task<IActionResult> Edit(Guid id, string SecurityKey, [Bind("ID,StudentID,FirstName,LastName,FullName,SubjectGroup,IsActive,CaThi,Subject")] DangKyThi dangKyThi)
         {
-            if (id != dangKyThi.StudentID)
+            if (id != dangKyThi.ID)
             {
                 return NotFound();
             }
@@ -120,7 +142,7 @@ namespace JavaExamFinal.Controllers
         }
 
         // GET: Admin/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null || _context.DangKyThi == null)
             {
@@ -128,7 +150,7 @@ namespace JavaExamFinal.Controllers
             }
 
             var dangKyThi = await _context.DangKyThi
-                .FirstOrDefaultAsync(m => m.StudentID == id);
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (dangKyThi == null)
             {
                 return NotFound();
@@ -140,7 +162,7 @@ namespace JavaExamFinal.Controllers
         // POST: Admin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id, string SecurityKey)
+        public async Task<IActionResult> DeleteConfirmed(Guid id, string SecurityKey)
         {
             if (_context.DangKyThi == null)
             {
@@ -236,6 +258,10 @@ namespace JavaExamFinal.Controllers
                 ModelState.AddModelError("", "Key xac thuc khong chinh xac");
             }
             
+            return View();
+        }
+        public IActionResult Student()
+        {
             return View();
         }
         public int WriteListStudent(DataTable dt, string Subject)

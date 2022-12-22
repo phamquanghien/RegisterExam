@@ -48,7 +48,7 @@ public class TinHocVanPhongController : Controller
             subjectGroup = subjectGroup.Trim();
             caThi = caThi.Trim();
         }
-        var std = await _context.Student.FindAsync(studentID);
+        var std = _context.Student.Where(m => m.StudentID == studentID).FirstOrDefault();
         if(std == null){
             ModelState.AddModelError("", "Mã sinh viên không chính xác");
         }
@@ -66,7 +66,7 @@ public class TinHocVanPhongController : Controller
                 ModelState.AddModelError("", "Ca thi không chính xác." + caThi + "-" + ct.IndexOf(caThi) + "-" + caThi.Length);
             }
             else{
-                var stdRegisted = await _context.DangKyThi.FindAsync(studentID);
+                var stdRegisted = _context.DangKyThi.Where(m => m.StudentID == studentID).FirstOrDefault();
                 if(stdRegisted != null) {
                     ModelState.AddModelError("", "Sinh viên đã đăng ký ca thi");
                 }
@@ -216,7 +216,7 @@ public class TinHocVanPhongController : Controller
                 ViewBag.ca7 = "Chưa có Sinh Viên đăng ký";
             }
             var ca8 = cathiList.Where(m => m.CaThiName == "Ca8").FirstOrDefault();
-            if(ca7!=null){
+            if(ca8!=null){
                 ViewBag.ca8 = ca8.RegistedValue + "/" +ca8.MaxValue + " SV đã đăng ký";
             }
             else{
