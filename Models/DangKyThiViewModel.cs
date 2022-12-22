@@ -1,17 +1,12 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 namespace JavaExamFinal.Models
 {
-    public class DangKyThi
+    public class DangKyThiViewModel
     {
-        [Key]
-        public Guid ID { get; set; }
+        public int ID { get; set; }
         public string StudentID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FullName { get; set; }
         public string SubjectGroup { get; set; }
-        public bool IsActive { get; set; }
         public string CaThi { get; set; }
         public string Subject { get; set; }
     }

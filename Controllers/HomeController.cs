@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using JavaExamFinal.Models;
 using JavaExamFinal.Data;
+using JavaExamFinal.Models;
 
 namespace JavaExamFinal.Controllers;
 

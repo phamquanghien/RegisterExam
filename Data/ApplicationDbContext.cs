@@ -1,3 +1,4 @@
+using JavaExamFinal.Models;
 using Microsoft.EntityFrameworkCore;
 namespace JavaExamFinal.Data
 {

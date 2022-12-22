@@ -1,3 +1,4 @@
+using System.Drawing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using JavaExamFinal.Data;
 using System.Data;
 using JavaExamFinal.Models.Process;
+using OfficeOpenXml;
+using JavaExamFinal.Models;
+using OfficeOpenXml.Style;
 
 namespace JavaExamFinal.Controllers
 {
@@ -260,6 +264,146 @@ namespace JavaExamFinal.Controllers
             
             return View();
         }
+        
+        public async Task<IActionResult> Download(string Subject, string CaThi)
+        {
+            if(string.IsNullOrEmpty(Subject)) ModelState.AddModelError("", "Vui lòng chọn học phần để tìm thông tin");
+            else
+            {
+                if(string.IsNullOrEmpty(CaThi))
+                {
+                    ModelState.AddModelError("", "Vui lòng chọn nhóm môn học để tìm thông tin");
+                    return View(await _context.DangKyThi.Where(m => m.Subject == "ZZZ").ToListAsync());
+                }
+                else
+                {
+                    var models = await _context.DangKyThi.Where(m => m.Subject == Subject && m.CaThi == CaThi).ToListAsync();
+                    return View(models);
+                }
+            }
+            return View(await _context.DangKyThi.Where(m => m.Subject == "ZZZ").ToListAsync());
+        }
+        public IActionResult GetFile(string Subject, string CaThi)
+        {
+            if(string.IsNullOrEmpty(Subject)) ModelState.AddModelError("", "Vui lòng chọn học phần để tìm thông tin");
+            else
+            {
+                if(string.IsNullOrEmpty(CaThi))
+                {
+                    ModelState.AddModelError("", "Vui lòng chọn nhóm môn học để tìm thông tin");
+                }
+                else
+                {
+                    var fileName = DateTime.Now.ToLongTimeString() + ".xlsx";
+                    using(ExcelPackage excelPackage = new ExcelPackage())
+                    {
+                        //create a WorkSheet
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet 1");
+                        var listDangKyThi = _context.DangKyThi.Where(m => m.Subject == Subject && m.CaThi == CaThi).ToList();
+                        List<DangKyThiViewModel> list = new List<DangKyThiViewModel>();
+                        for (var i = 0; i < listDangKyThi.Count; i++)
+                        {
+                            DangKyThiViewModel dktVM = new DangKyThiViewModel();
+                            dktVM.ID = i + 1;
+                            dktVM.StudentID = listDangKyThi[i].StudentID;
+                            dktVM.FirstName = listDangKyThi[i].FirstName;
+                            dktVM.LastName = listDangKyThi[i].LastName;
+                            dktVM.SubjectGroup = listDangKyThi[i].SubjectGroup;
+                            dktVM.CaThi = listDangKyThi[i].CaThi;
+                            dktVM.Subject = listDangKyThi[i].Subject;
+                            list.Add(dktVM);
+                        }
+                        if(Subject == "THVPNC")
+                        {
+                            worksheet.Cells["A1"].Value = "Thi kết thúc học phần: Tin học Văn phòng Nâng cao";
+                            switch(CaThi){
+                                case "Ca1" : worksheet.Cells["A2"].Value = "Ca 1 (Thời gian: 8:00 AM - 8:50AM)";
+                                break;
+                                case "Ca2" : worksheet.Cells["A2"].Value = "Ca 2 (Thời gian: 9:00 AM - 9:50AM)";
+                                break;
+                                case "Ca3" : worksheet.Cells["A2"].Value = "Ca 3 (Thời gian: 10:00 AM - 10:50AM)";
+                                break;
+                                case "Ca4" : worksheet.Cells["A2"].Value = "Ca 4 (Thời gian: 11:00 AM - 11:50AM)";
+                                break;
+                                case "Ca5" : worksheet.Cells["A2"].Value = "Ca 5 (Thời gian: 13:30 PM - 14:20PM)";
+                                break;
+                                case "Ca6" : worksheet.Cells["A2"].Value = "Ca 6 (Thời gian: 14:30 PM - 15:20PM)";
+                                break;
+                                case "Ca7" : worksheet.Cells["A2"].Value = "Ca 7 (Thời gian: 15:30 PM - 16:20PM)";
+                                break;
+                                case "Ca8" : worksheet.Cells["A2"].Value = "Ca 8 (Thời gian: 16:30 PM - 17:20PM)";
+                                break;
+                                default: break;
+                            }
+                        } else if(Subject == "QTDA")
+                        {
+                            worksheet.Cells["A1"].Value = "Thi kết thúc học phần: Quản trị Dự án Công nghệ Thông tin";
+                            switch(CaThi){
+                                case "Ca1" : worksheet.Cells["A2"].Value = "Ca 1 (Thời gian: 8:00 AM - 8:50AM)";
+                                break;
+                                case "Ca2" : worksheet.Cells["A2"].Value = "Ca 2 (Thời gian: 9:00 AM - 9:50AM)";
+                                break;
+                                case "Ca3" : worksheet.Cells["A2"].Value = "Ca 3 (Thời gian: 10:00 AM - 10:50AM)";
+                                break;
+                                case "Ca4" : worksheet.Cells["A2"].Value = "Ca 4 (Thời gian: 11:00 AM - 11:50AM)";
+                                break;
+                                default: break;
+                            }
+                        } else if(Subject == "TMDT")
+                        {
+                            worksheet.Cells["A1"].Value = "Thi kết thúc học phần: Quản trị Dự án Công nghệ Thông tin";
+                            switch(CaThi){
+                                case "Ca1" : worksheet.Cells["A2"].Value = "Ca 1 (Thời gian: 13:30 PM - 14:20PM)";
+                                break;
+                                case "Ca2" : worksheet.Cells["A2"].Value = "Ca 2 (Thời gian: 14:30 PM - 15:20PM)";
+                                break;
+                                case "Ca3" : worksheet.Cells["A2"].Value = "Ca 3 (Thời gian: 15:30 PM - 16:20PM)";
+                                break;
+                                case "Ca4" : worksheet.Cells["A2"].Value = "Ca 4 (Thời gian: 16:30 PM - 17:20PM)";
+                                break;
+                                default: break;
+                            }
+                        }
+                        worksheet.Cells["A1:G1"].Merge = true;
+                        worksheet.Cells["A2:G2"].Merge = true;
+
+                        worksheet.Cells["A3"].Value = "STT";
+                        worksheet.Cells["B3"].Value = "Mã Sinh viên";
+                        worksheet.Cells["C3"].Value = "Họ tên";
+                        worksheet.Cells["E3"].Value = "Nhóm môn học";
+                        worksheet.Cells["F3"].Value = "Ca đăng ký thi";
+                        worksheet.Cells["G3"].Value = "Ghi chú";
+                        worksheet.Cells["C3:D3"].Merge = true;
+                        worksheet.Cells["A3:G3"].Style.Font.Bold = true;
+                        worksheet.Cells["A3:G3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells["A4"].LoadFromCollection(list);
+                        worksheet.Cells["A:G"].Style.Font.Size = 13;
+                        worksheet.Cells["A:B"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells["E:G"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Column(1).AutoFit();
+                        worksheet.Column(2).AutoFit();
+                        worksheet.Column(3).AutoFit();
+                        worksheet.Column(4).AutoFit();
+                        worksheet.Column(5).AutoFit();
+                        worksheet.Column(6).AutoFit();
+                        worksheet.Column(7).AutoFit();
+
+                        string modelRange = "A1:G" + (list.Count() + 2);
+                        var modelTable = worksheet.Cells[modelRange];
+
+                        // Assign borders
+                        modelTable.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+                        var stream = new MemoryStream(excelPackage.GetAsByteArray()); //Get updated stream
+                        return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
         public IActionResult Student()
         {
             return View();
@@ -288,6 +432,7 @@ namespace JavaExamFinal.Controllers
                 return 0;
             }
         }
+        
         private bool DangKyThiExists(string id)
         {
           return (_context.DangKyThi?.Any(e => e.StudentID == id)).GetValueOrDefault();
