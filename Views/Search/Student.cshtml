@@ -1,0 +1,76 @@
+@model IEnumerable<JavaExamFinal.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Danh sách Sinh viên</h1>
+
+<p>
+    
+</p>
+<div class="w3-row w3-padding">
+    <form method="POST" action="Student">
+        <input type="text" name="stdID" class="form-control w3-col l3 w3-margin-right" placeholder="Nhập Mã Sinh viên để tìm kiếm">
+        <input type="submit" class="btn btn-success w3-col l1 w3-margin-right" value="Tìm kiếm">
+    </form>
+    <a asp-action="Create" class="btn btn-primary w3-col l2">Thêm mới Sinh viên</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectGroup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectGroup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-success">Edit</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

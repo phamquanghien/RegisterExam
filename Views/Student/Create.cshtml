@@ -1,20 +1,17 @@
-@model DangKyThi
+@model JavaExamFinal.Models.Student
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Đăng ký thi cho sinh viên</h1>
+<h1>Create</h1>
 
+<h4>Student</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label>Mã bảo mật</label>
-                <input type="text" class="form-control" placeholder="Enter Security code" required name="SecurityCode">
-            </div>
             <div class="form-group">
                 <label asp-for="StudentID" class="control-label"></label>
                 <input asp-for="StudentID" class="form-control" />
@@ -40,28 +37,25 @@
                 <input asp-for="SubjectGroup" class="form-control" />
                 <span asp-validation-for="SubjectGroup" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Subject" class="control-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="CaThi" class="control-label"></label>
-                <input asp-for="CaThi" class="form-control" />
-                <span asp-validation-for="CaThi" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Subject" class="control-label"></label>
-                <input asp-for="Subject" class="form-control" />
-                <span asp-validation-for="Subject" class="text-danger"></span>
-            </div>
-            <br>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
-                <a class="btn btn-success" asp-action="Index">Back to List</a>
             </div>
         </form>
     </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
