@@ -11,9 +11,10 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="FullName" />
             <div class="form-group">
                 <label class="control-lable">Mã xác thực:</label>
-                <input type="text" name="SecurityCode" class="form-control" required>
+                <input type="password" name="SecurityCode" class="form-control" required>
             </div>
             <div class="form-group">
                 <label asp-for="StudentID" class="control-label"></label>
@@ -29,11 +30,6 @@
                 <label asp-for="LastName" class="control-label"></label>
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SubjectGroup" class="control-label"></label>
@@ -52,13 +48,10 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success">Danh sách Sinh viên</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

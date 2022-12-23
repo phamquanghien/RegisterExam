@@ -11,6 +11,8 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* <input type="hidden" asp-for="FullName" /> *@
+            @* <input type="hidden" class="form-check-input" asp-for="IsActive" checked /> *@
             <div class="form-group">
                 <label class="control-lable">Mã xác thực:</label>
                 <input type="password" name="Security" required class="form-control">
@@ -30,6 +32,7 @@
                 <input asp-for="LastName" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
+            <input hidden value="FulName" asp-for="FullName" class="form-control" />
             <div class="form-group">
                 <label asp-for="SubjectGroup" class="control-label"></label>
                 <input asp-for="SubjectGroup" class="form-control" />
@@ -45,6 +48,7 @@
                 </select>
                 <span asp-validation-for="Subject" class="text-danger"></span>
             </div>
+            <input hidden checked class="form-check-input" asp-for="IsActive" />
             <hr>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -67,25 +67,37 @@ namespace JavaExamFinal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string Security, Student student)
+        public async Task<IActionResult> Create(string Security, [Bind("ID,StudentID,FirstName,LastName,FullName,SubjectGroup,Subject,IsActive")] Student student)
         {
             if(string.IsNullOrEmpty(Security)) {
-                ModelState.AddModelError("", "Mã xác thực không được để trống");
+                ModelState.AddModelError("","Mã xác thực không được để trống");
             } else if(Security != "14022012") {
-                ModelState.AddModelError("", "Mã xác thực không chính xác");
-            }
-            else {
-                student.IsActive = true;
-                student.FullName = student.FirstName + " " + student.LastName;
-                ModelState.AddModelError("", "Học phần: " + student.Subject + "-" + student.IsActive + "-" + student.FullName);
+                ModelState.AddModelError("","Mã xác thực không chính xác");
+            } else {
                 if (ModelState.IsValid)
                 {
+                    student.FullName = student.FirstName + " " + student.LastName;
                     student.ID = Guid.NewGuid();
                     _context.Add(student);
+                    var dktByStudentID = await _context.DangKyThi.Where(m => m.StudentID == student.StudentID).ToListAsync();
+                    var stdByStudentID = await _context.Student.Where(m => m.StudentID == student.StudentID).ToListAsync();
+                    foreach(var item in dktByStudentID)
+                    {
+                        item.FirstName = student.FirstName;
+                        item.LastName = student.LastName;
+                        item.FullName = student.FullName;
+                    }
+                    foreach(var item2 in stdByStudentID)
+                    {
+                        item2.FirstName = student.FirstName;
+                        item2.LastName = student.LastName;
+                        item2.FullName = student.FullName;
+                    }
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Student));
                 }
             }
+            
             return View(student);
         }
         public async Task<IActionResult> Edit(Guid? id)
@@ -126,13 +138,21 @@ namespace JavaExamFinal.Controllers
                     {
                         try
                         {
+                            student.FullName = student.FirstName + " " + student.LastName;
                             _context.Update(student);
                             var dktByStudentID = await _context.DangKyThi.Where(m => m.StudentID == student.StudentID).ToListAsync();
+                            var stdByStudentID = await _context.Student.Where(m => m.StudentID == student.StudentID).ToListAsync();
                             foreach(var item in dktByStudentID)
                             {
                                 item.FirstName = student.FirstName;
                                 item.LastName = student.LastName;
                                 item.FullName = student.FullName;
+                            }
+                            foreach(var item2 in stdByStudentID)
+                            {
+                                item2.FirstName = student.FirstName;
+                                item2.LastName = student.LastName;
+                                item2.FullName = student.FullName;
                             }
                             await _context.SaveChangesAsync();
                         }
@@ -147,7 +167,7 @@ namespace JavaExamFinal.Controllers
                                 throw;
                             }
                         }
-                        return RedirectToAction(nameof(Index));
+                        return RedirectToAction(nameof(Student));
                     }
                 }
             }

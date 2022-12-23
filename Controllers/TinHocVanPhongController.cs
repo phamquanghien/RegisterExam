@@ -48,7 +48,7 @@ public class TinHocVanPhongController : Controller
             subjectGroup = subjectGroup.Trim();
             caThi = caThi.Trim();
         }
-        var std = _context.Student.Where(m => m.StudentID == studentID).FirstOrDefault();
+        var std = _context.Student.Where(m => m.StudentID == studentID && m.Subject == "THVPNC").FirstOrDefault();
         if(std == null){
             ModelState.AddModelError("", "Mã sinh viên không chính xác");
         }
