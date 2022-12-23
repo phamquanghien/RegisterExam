@@ -65,7 +65,7 @@ public class ThuongMaiDienTuController : Controller
                 ModelState.AddModelError("", "Ca thi không chính xác." + caThi + "-" + ct.IndexOf(caThi) + "-" + caThi.Length);
             }
             else{
-                var stdRegisted = _context.DangKyThi.Where(m => m.StudentID == studentID).FirstOrDefault();
+                var stdRegisted = _context.DangKyThi.Where(m => m.StudentID == studentID && m.Subject == "TMDT").FirstOrDefault();
                 if(stdRegisted != null) {
                     ModelState.AddModelError("", "Sinh viên đã đăng ký ca thi");
                 }
