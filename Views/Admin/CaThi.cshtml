@@ -1,0 +1,81 @@
+@model IEnumerable<CaThi>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Danh sách Ca thi</h1>
+
+<hr>
+<input class="w3-input w3-border w3-padding" type="text" placeholder="Tìm kiếm theo học phần" id="myInput" onkeyup="myFunction()">
+<table class="w3-table-all w3-margin-top" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                <label>ID</label>
+            </th>
+            <th>
+                <label>Name</label>
+            </th>
+            <th>
+                <label>Số Sinh viên tối đa</label>
+            </th>
+            <th>
+                <label>Số Sinh viên đã đăng ký</label>
+            </th>
+            <th>
+                <label>Môn học</label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaThiID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaThiName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RegistedValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                <a asp-action="EditCaThi" asp-route-id="@item.CaThiID" class="btn btn-primary">Sửa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    <script src="~/js/Search.js"></script>
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            $("table > tbody > tr:first > td").length
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[4];
+                if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+                }       
+            }
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

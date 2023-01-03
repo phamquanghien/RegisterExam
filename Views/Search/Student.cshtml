@@ -9,12 +9,13 @@
 <p>
     
 </p>
-<div class="w3-row w3-padding">
-    <form method="POST" action="Student">
+<div class="w3-row w3-padding-16">
+    <form method="POST">
         <input type="text" name="stdID" class="form-control w3-col l3 w3-margin-right" placeholder="Nhập Mã Sinh viên để tìm kiếm">
-        <input type="submit" class="btn btn-success w3-col l1 w3-margin-right" value="Tìm kiếm">
+        <input type="submit" class="btn btn-success w3-col l1 w3-margin-right" asp-action="Student" value="Tìm kiếm">
     </form>
-    <a asp-action="Create" class="btn btn-primary w3-col l2">Thêm mới Sinh viên</a>
+    <a asp-action="Create" class="btn btn-primary w3-col l2 w3-margin-right">Thêm mới Sinh viên</a>
+    <a asp-action="NoRegister" class="btn btn-success w3-col l2">Sinh viên chưa đăng ký</a>
 </div>
 <table class="table">
     <thead>

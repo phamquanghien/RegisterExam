@@ -24,8 +24,21 @@ function GetCathiBySubject(obj)
         content += '<option value="Ca8">Ca 8 (Thời gian: 16:30 PM - 17:20PM)</option>'
         content += '</select>';
         $('#CaThi').html(content)
+        var content2 = '';
+        content2 += '<select class="w3-select w3-border w3-round w3-white w3-padding w3-mobile w3-col l2 w3-large w3-margin-right" id="MySelect" name="SubjectGroup" onchange="genderChanged(this)">'
+        content2 += '<option value="150">Nhóm 150</option>'
+        content2 += '<option value="151">Nhóm 151</option>'
+        content2 += '<option value="152">Nhóm 152</option>'
+        content2 += '<option value="153">Nhóm 153</option>'
+        content2 += '<option value="154">Nhóm 154</option>'
+        content2 += '<option value="155">Nhóm 155</option>'
+        content2 += '<option value="156">Nhóm 156</option>'
+        content2 += '<option value="157">Nhóm 157</option>'
+        content2 += '<option value="200">Nhóm 200</option>'
+        content2 += '</select>';
+        $('#SubjectGroup').html(content2)
     }
-    else if(subject == "QTDA")
+    else if(subject == "TMDT")
     {
         var content = '';
         content += '<select class="w3-select w3-border w3-round w3-white w3-padding w3-mobile w3-col l5 w3-large w3-margin-right" id="MySelect" name="CaThi" onchange="genderChanged(this)">'
@@ -35,8 +48,18 @@ function GetCathiBySubject(obj)
         content += '<option value="Ca4">Ca 4 (Thời gian: 11:00 AM - 11:50AM)</option>'
         content += '</select>';
         $('#CaThi').html(content)
+        var content2 = '';
+        content2 += '<select class="w3-select w3-border w3-round w3-white w3-padding w3-mobile w3-col l2 w3-large w3-margin-right" id="MySelect" name="SubjectGroup" onchange="genderChanged(this)">'
+        content2 += '<option value="150">Nhóm 150</option>'
+        content2 += '<option value="151">Nhóm 151</option>'
+        content2 += '<option value="152">Nhóm 152</option>'
+        content2 += '<option value="154">Nhóm 154</option>'
+        content2 += '<option value="155">Nhóm 155</option>'
+        content2 += '<option value="160">Nhóm 160</option>'
+        content2 += '</select>';
+        $('#SubjectGroup').html(content2)
     }
-    else if(subject == "TMDT")
+    else if(subject == "QTDA")
     {
         var content = '';
         content += '<select class="w3-select w3-border w3-round w3-white w3-padding w3-mobile w3-col l5 w3-large w3-margin-right" id="MySelect" name="CaThi" onchange="genderChanged(this)">'
@@ -45,6 +68,13 @@ function GetCathiBySubject(obj)
         content += '<option value="Ca3">Ca 3 (Thời gian: 15:30 PM - 16:20PM)</option>'
         content += '</select>';
         $('#CaThi').html(content)
+        var content2 = '';
+        content2 += '<select class="w3-select w3-border w3-round w3-white w3-padding w3-mobile w3-col l2 w3-large w3-margin-right" id="MySelect" name="SubjectGroup" onchange="genderChanged(this)">'
+        content2 += '<option value="150">Nhóm 150</option>'
+        content2 += '<option value="151">Nhóm 151</option>'
+        content2 += '<option value="152">Nhóm 152</option>'
+        content2 += '</select>';
+        $('#SubjectGroup').html(content2)
     }
 }
 

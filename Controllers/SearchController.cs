@@ -53,8 +53,10 @@ namespace JavaExamFinal.Controllers
             {
                 return View(await _context.Student.Where(m => m.StudentID == stdID || m.Subject == stdID || m.Subject == stdID).ToListAsync());
             }
-            ModelState.AddModelError("","Vui lòng nhập mã sinh viên để tìm kiếm thông tin");
-            return View();
+            else
+            {
+                return View(await _context.Student.Take(20).ToListAsync());
+            }
         }
         // GET: Student/Create
         public IActionResult Create()
@@ -172,6 +174,42 @@ namespace JavaExamFinal.Controllers
                 }
             }
             return View(student);
+        }
+        public async Task<IActionResult> NoRegister()
+        {
+            string tt = "Tong: ";
+            int dem = 0;
+            var stdList = await _context.Student.ToListAsync();
+            //tt += stdList.Count() + " SV, da dang ky: ";
+            var dktList = await _context.DangKyThi.ToListAsync();
+            //tt += dktList.Count() + ", con lai: (" + (stdList.Count()-dktList.Count()) + ") ";
+            tt += dktList.Count() + ", ";
+            // for (int i = 0; i < stdList.Count; i++)
+            // {
+            //     var checkExist = dktList.Where(m => m.StudentID == stdList[i].StudentID && m.Subject == stdList[i].Subject & m.SubjectGroup == stdList[i].SubjectGroup).Count();
+            //     if (checkExist > 0)
+            //     {
+            //         stdList.RemoveAt(i);
+            //         i--;
+            //     }
+            // }
+            // tt += stdList.Count();
+            for (int i = 0; i < dktList.Count; i++)
+            {
+                var checkExist = stdList.Where(m => m.StudentID ==  dktList[i].StudentID && m.Subject == dktList[i].Subject && m.SubjectGroup == dktList[i].SubjectGroup).Count();
+                if(checkExist >0)
+                {
+                    dktList.RemoveAt(i);
+                    i--;
+                }
+            }
+            tt += "con: " + dktList.Count + "; ";
+            for(int i = 0; i < dktList.Count; i++)
+            {
+                tt += dktList[i].StudentID + "; ";
+            }
+            ViewBag.thongBao = tt;
+            return View(stdList);
         }
         private bool StudentExists(Guid id)
         {

@@ -14,14 +14,14 @@ if(subject = "THVPNC")
     $("#MySelect").append(new Option("Ca 7 (Thời gian: 15:30 PM - 16:20PM)", "Ca7"));
     $("#MySelect").append(new Option("Ca 8 (Thời gian: 16:30 PM - 17:20PM)", "Ca8"));
 }
-else if(subject = "QTDA")
+else if(subject = "TMDT")
 {
     $("#MySelect").append(new Option("Ca 1 (Thời gian: 8:00 AM - 8:50AM)", "Ca1"));
     $("#MySelect").append(new Option("Ca 2 (Thời gian: 9:00 AM - 9:50AM)", "Ca2"));
     $("#MySelect").append(new Option("Ca 3 (Thời gian: 10:00 AM - 10:50AM)", "Ca3"));
     $("#MySelect").append(new Option("Ca 4 (Thời gian: 11:00 AM - 11:50AM)", "Ca4"));
 }
-else if(subject = "TMDT")
+else if(subject = "QTDA")
 {
     $("#MySelect").append(new Option("Ca 1 (Thời gian: 13:30 PM - 14:20PM)", "Ca1"));
     $("#MySelect").append(new Option("Ca 2 (Thời gian: 14:30 PM - 15:20PM)", "Ca2"));

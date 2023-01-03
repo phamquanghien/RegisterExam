@@ -1,0 +1,103 @@
+@model IEnumerable<DangKyThi>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Danh sách Sinh viên Chưa đăng ký thi</h1>
+
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="w3-row w3-margin-top">
+        <select id="Subject" class="w3-select w3-border w3-round w3-white w3-padding w3-mobile w3-col l3 w3-large w3-margin-right" name="Subject" onchange="GetCathiBySubject(this)">
+            <option value="" disabled selected>Chọn học phần</option>
+            <option value="THVPNC">Tin học Văn phòng Nâng cao</option>
+            <option value="QTDA">Quản trị Dự án CNTT</option>
+            <option value="TMDT">Thương mại Điện tử</option>
+        </select>
+        <div id="SubjectGroup"></div>
+        <input type="submit" value="Danh sách Sinh viên" class="btn btn-success" asp-action="AllStudent">
+        <input type="submit" value="Danh sách Sinh viên chưa đăng ký" class="btn btn-success" asp-action="FileStudent">
+        @* <select class="w3-select w3-border w3-round w3-white w3-padding w3-mobile w3-col l3 w3-large w3-margin-right" id="MySelect" name="CaThi" onchange="genderChanged(this)"></select> *@
+    </div>
+</form>
+<hr>
+<input class="w3-input w3-border w3-padding" type="text" placeholder="Tìm kiếm theo mã sinh viên" id="myInput" onkeyup="myFunction()">
+@* <table class="w3-table-all w3-margin-top" id="myTable">
+    <thead>
+        <tr>
+            <th>
+                <label>Mã sinh viên</label>
+            </th>
+            <th>
+                <label>Họ tên</label>
+            </th>
+            <th>
+                <label>Nhóm Môn học</label>
+            </th>
+            <th>
+                <label>Dự thi</label>
+            </th>
+            <th>
+                <label>Ca thi</label>
+            </th>
+            <th>
+                <label>Môn học</label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubjectGroup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaThi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-primary">Sửa</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger">Xoá</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table> *@
+@section Scripts {
+    <script src="~/js/Search.js"></script>
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            $("table > tbody > tr:first > td").length
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+                }       
+            }
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

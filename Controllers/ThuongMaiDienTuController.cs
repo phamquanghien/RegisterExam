@@ -71,7 +71,7 @@ public class ThuongMaiDienTuController : Controller
                 }
                 else{
                     //kiem tra xem so luong dang ky da full chua
-                    var checkCaThi = _context.CaThi.Where(m => m.CaThiName == caThi).FirstOrDefault();
+                    var checkCaThi = _context.CaThi.Where(m => m.CaThiName == caThi && m.Subject == "TMDT").FirstOrDefault();
                     // neu chua co du lieu trong bang ca thi thi can them vao
                     if(checkCaThi== null)
                     {

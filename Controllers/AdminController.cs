@@ -54,7 +54,193 @@ namespace JavaExamFinal.Controllers
             }
             return View(await _context.DangKyThi.Where(m => m.Subject == "ZZZ").ToListAsync());
         }
+        public IActionResult Student()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> AllStudent(string Subject, string SubjectGroup)
+        {
+            if(string.IsNullOrEmpty(Subject)) ModelState.AddModelError("", "Vui lòng chọn học phần để tìm thông tin");
+            else
+            {
+                var fileName = DateTime.Now.ToLongTimeString() + ".xlsx";
+                    using(ExcelPackage excelPackage = new ExcelPackage())
+                    {
+                        //create a WorkSheet
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet 1");
+                        //get list sinh vien chua dang ky thi
+                        //1. get danh sach sinh vien cua hoc phan
+                        var listChuaDangKyThi = _context.Student.Where(m => m.Subject == Subject).ToList();
+                        var listDangKy = _context.DangKyThi.Where(m => m.Subject == Subject).ToList();
+                        //2. get danh sach sinh vien da dang ky cua hoc phan
+                        if(!string.IsNullOrEmpty(SubjectGroup) && SubjectGroup != "")
+                        {
+                            listChuaDangKyThi = listChuaDangKyThi.Where(m => m.SubjectGroup == SubjectGroup).ToList();
+                            listDangKy = listDangKy.Where(m => m.SubjectGroup == SubjectGroup).ToList();
+                        }
+                        List<StudentViewModel2> list = new List<StudentViewModel2>();
+                        for(int i = 0; i < listChuaDangKyThi.Count; i++)
+                        {
+                            StudentViewModel2 stdVM2 = new StudentViewModel2();
+                            stdVM2.STT = i + 1;
+                            stdVM2.StudentID = listChuaDangKyThi[i].StudentID;
+                            stdVM2.FirstName = listChuaDangKyThi[i].FirstName;
+                            stdVM2.LastName = listChuaDangKyThi[i].LastName;
+                            stdVM2.SubjectGroup = listChuaDangKyThi[i].SubjectGroup;
+                            if(listChuaDangKyThi[i].IsActive == false)
+                            {
+                                stdVM2.IsActive = "Cấm thi";
+                            }
+                            var checkRegisted = listDangKy.Where(m => m.StudentID == listChuaDangKyThi[i].StudentID && m.Subject == listChuaDangKyThi[i].Subject && m.SubjectGroup == listChuaDangKyThi[i].SubjectGroup).ToList().Count();
+                            if(checkRegisted == 0)
+                            {
+                                stdVM2.Registed = "Chưa đăng ký";
+                            }
+                            
+                            list.Add(stdVM2);
+                        }
+                        
+                        worksheet.Cells["A1:G1"].Merge = true;
+                        switch(Subject)
+                        {
+                            case "THVPNC": worksheet.Cells["A1"].Value = "Danh sách Sinh viên chưa đăng ký ca thi môn Tin học Văn phòng Nâng cao nhóm " + SubjectGroup;
+                            break;
+                            case "TMDT": worksheet.Cells["A1"].Value = "Danh sách Sinh viên chưa đăng ký ca thi môn Thương mại Điện tử nhóm " + SubjectGroup;
+                            break;
+                            case "QTDA": worksheet.Cells["A1"].Value = "Danh sách Sinh viên chưa đăng ký ca thi môn Quản trị Dự án CNTT nhóm " + SubjectGroup;
+                            break;
+                        }
 
+                        worksheet.Cells["A3"].Value = "STT";
+                        worksheet.Cells["B3"].Value = "Mã Sinh viên";
+                        worksheet.Cells["C3"].Value = "Họ tên";
+                        worksheet.Cells["E3"].Value = "Nhóm môn học";
+                        worksheet.Cells["F3"].Value = "Ghi chú";
+                        worksheet.Cells["G3"].Value = "Đăng ký thi";
+                        worksheet.Cells["C3:D3"].Merge = true;
+                        worksheet.Cells["A3:F3"].Style.Font.Bold = true;
+                        worksheet.Cells["A3:F3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells["A4"].LoadFromCollection(list);
+                        worksheet.Cells["A:G"].Style.Font.Size = 13;
+                        worksheet.Cells["A:B"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells["E:G"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Column(1).AutoFit();
+                        worksheet.Column(2).AutoFit();
+                        worksheet.Column(3).AutoFit();
+                        worksheet.Column(4).AutoFit();
+                        worksheet.Column(5).AutoFit();
+                        worksheet.Column(6).AutoFit();
+                        worksheet.Column(7).AutoFit();
+
+                        string modelRange = "A1:G" + (list.Count() + 3);
+                        var modelTable = worksheet.Cells[modelRange];
+
+                        // Assign borders
+                        modelTable.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+                        var stream = new MemoryStream(excelPackage.GetAsByteArray()); //Get updated stream
+                        return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                    }
+            }
+            return RedirectToAction("Student");
+        }
+        [HttpPost]
+        public async Task<IActionResult> FileStudent(string Subject, string SubjectGroup)
+        {
+            if(string.IsNullOrEmpty(Subject)) ModelState.AddModelError("", "Vui lòng chọn học phần để tìm thông tin");
+            else
+            {
+                var fileName = DateTime.Now.ToLongTimeString() + ".xlsx";
+                    using(ExcelPackage excelPackage = new ExcelPackage())
+                    {
+                        //create a WorkSheet
+                        ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("Sheet 1");
+                        //get list sinh vien chua dang ky thi
+                        //1. get danh sach sinh vien cua hoc phan
+                        var listChuaDangKyThi = _context.Student.Where(m => m.Subject == Subject).ToList();
+                        var listDangKy = _context.DangKyThi.Where(m => m.Subject == Subject).ToList();
+                        //2. get danh sach sinh vien da dang ky cua hoc phan
+                        if(!string.IsNullOrEmpty(SubjectGroup) && SubjectGroup != "")
+                        {
+                            listChuaDangKyThi = listChuaDangKyThi.Where(m => m.SubjectGroup == SubjectGroup).ToList();
+                            listDangKy = listDangKy.Where(m => m.SubjectGroup == SubjectGroup).ToList();
+                        }
+                        
+                        for(int i = 0; i < listChuaDangKyThi.Count; i++)
+                        {
+                            var checkRegisted = listDangKy.Where(m => m.StudentID == listChuaDangKyThi[i].StudentID && m.Subject == listChuaDangKyThi[i].Subject && m.SubjectGroup == listChuaDangKyThi[i].SubjectGroup).ToList().Count();
+                            if(checkRegisted > 0)
+                            {
+                                listChuaDangKyThi.RemoveAt(i);
+                                i--;
+                            }
+                        }
+                        List<StudentViewModel> list = new List<StudentViewModel>();
+                        for (var i = 0; i < listChuaDangKyThi.Count; i++)
+                        {
+                            StudentViewModel stdVM = new StudentViewModel();
+                            stdVM.STT = i + 1;
+                            stdVM.StudentID = listChuaDangKyThi[i].StudentID;
+                            stdVM.FirstName = listChuaDangKyThi[i].FirstName;
+                            stdVM.LastName = listChuaDangKyThi[i].LastName;
+                            stdVM.SubjectGroup = listChuaDangKyThi[i].SubjectGroup;
+                            if(listChuaDangKyThi[i].IsActive == false)
+                            {
+                                stdVM.IsActive = "Cấm thi";
+                            }
+                            list.Add(stdVM);
+                        }
+                        
+                        worksheet.Cells["A1:F1"].Merge = true;
+                        switch(Subject)
+                        {
+                            case "THVPNC": worksheet.Cells["A1"].Value = "Danh sách Sinh viên chưa đăng ký ca thi môn Tin học Văn phòng Nâng cao nhóm " + SubjectGroup;
+                            break;
+                            case "TMDT": worksheet.Cells["A1"].Value = "Danh sách Sinh viên chưa đăng ký ca thi môn Thương mại Điện tử nhóm " + SubjectGroup;
+                            break;
+                            case "QTDA": worksheet.Cells["A1"].Value = "Danh sách Sinh viên chưa đăng ký ca thi môn Quản trị Dự án CNTT nhóm " + SubjectGroup;
+                            break;
+                        }
+
+                        worksheet.Cells["A3"].Value = "STT";
+                        worksheet.Cells["B3"].Value = "Mã Sinh viên";
+                        worksheet.Cells["C3"].Value = "Họ tên";
+                        worksheet.Cells["E3"].Value = "Nhóm môn học";
+                        worksheet.Cells["F3"].Value = "Ghi chú";
+                        worksheet.Cells["C3:D3"].Merge = true;
+                        worksheet.Cells["A3:F3"].Style.Font.Bold = true;
+                        worksheet.Cells["A3:F3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells["A4"].LoadFromCollection(list);
+                        worksheet.Cells["A:F"].Style.Font.Size = 13;
+                        worksheet.Cells["A:B"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Cells["E:F"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        worksheet.Column(1).AutoFit();
+                        worksheet.Column(2).AutoFit();
+                        worksheet.Column(3).AutoFit();
+                        worksheet.Column(4).AutoFit();
+                        worksheet.Column(5).AutoFit();
+                        worksheet.Column(6).AutoFit();
+                        worksheet.Column(7).AutoFit();
+
+                        string modelRange = "A1:F" + (list.Count() + 3);
+                        var modelTable = worksheet.Cells[modelRange];
+
+                        // Assign borders
+                        modelTable.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                        modelTable.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+
+                        var stream = new MemoryStream(excelPackage.GetAsByteArray()); //Get updated stream
+                        return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                    }
+            }
+            return RedirectToAction("Student");
+        }
         // GET: Admin/Create
         public IActionResult Create()
         {
@@ -388,7 +574,7 @@ namespace JavaExamFinal.Controllers
                         worksheet.Column(6).AutoFit();
                         worksheet.Column(7).AutoFit();
 
-                        string modelRange = "A1:G" + (list.Count() + 2);
+                        string modelRange = "A1:G" + (list.Count() + 3);
                         var modelTable = worksheet.Cells[modelRange];
 
                         // Assign borders
@@ -403,10 +589,6 @@ namespace JavaExamFinal.Controllers
                 }
             }
             return RedirectToAction("Index");
-        }
-        public IActionResult Student()
-        {
-            return View();
         }
         public int WriteListStudent(DataTable dt, string Subject)
         {
@@ -433,9 +615,70 @@ namespace JavaExamFinal.Controllers
             }
         }
         
+        public async Task<IActionResult> CaThi()
+        {
+            return View(await _context.CaThi.ToListAsync());
+        }
+        public async Task<IActionResult> EditCaThi(int? id)
+        {
+            if (id == null || _context.CaThi == null)
+            {
+                return NotFound();
+            }
+
+            var caThi = await _context.CaThi.FindAsync(id);
+            if (caThi == null)
+            {
+                return NotFound();
+            }
+            return View(caThi);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCaThi(int id, string SecurityKey, [Bind("CaThiID,CaThiName,MaxValue,RegistedValue,Subject")] CaThi caThi)
+        {
+            if (id != caThi.CaThiID)
+            {
+                return NotFound();
+            }
+
+            if(string.IsNullOrEmpty(SecurityKey))
+            {
+                ModelState.AddModelError("","Vui lòng nhập Khoá bảo mật");
+            }
+            else if(SecurityKey != "14022012")
+            {
+                ModelState.AddModelError("","Khoá bảo mật không chính xác, vui lòng thử lại");
+            }
+            else if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(caThi);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CaThiExists(caThi.CaThiID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(CaThi));
+            }
+            return View(caThi);
+        }
         private bool DangKyThiExists(string id)
         {
           return (_context.DangKyThi?.Any(e => e.StudentID == id)).GetValueOrDefault();
+        }
+        private bool CaThiExists(int id)
+        {
+          return (_context.CaThi?.Any(e => e.CaThiID == id)).GetValueOrDefault();
         }
     }
 }
