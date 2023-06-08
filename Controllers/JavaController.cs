@@ -5,14 +5,14 @@ using JavaExamFinal.Data;
 
 namespace JavaExamFinal.Controllers;
 
-public class TinHocVanPhongController : Controller
+public class JavaController : Controller
 {
     private readonly ApplicationDbContext _context;
     private readonly ILogger<TinHocVanPhongController> _logger;
-    private string subGroup = "100,101";
-    private string ct =  "Ca1, Ca2";
+    private string subGroup = "1,2,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,100";
+    private string ct =  "Ca1, Ca2, Ca3, Ca4, Ca5, Ca6, Ca7, Ca8, Ca9, Ca10, Ca11, Ca12, Ca13";
 
-    public TinHocVanPhongController(ILogger<TinHocVanPhongController> logger, ApplicationDbContext context)
+    public JavaController(ILogger<TinHocVanPhongController> logger, ApplicationDbContext context)
     {
         _logger = logger;
         _context = context;
@@ -48,9 +48,9 @@ public class TinHocVanPhongController : Controller
             subjectGroup = subjectGroup.Trim();
             caThi = caThi.Trim();
         }
-        var std = _context.Student.Where(m => m.StudentID == studentID && m.Subject == "THVPNC").FirstOrDefault();
+        var std = _context.Student.Where(m => m.StudentID == studentID && m.Subject == "JavaOOP").FirstOrDefault();
         if(std == null){
-            ModelState.AddModelError("", "Mã sinh viên không chính xác: " + studentID +"-" + studentName + "-" + subjectGroup);
+            ModelState.AddModelError("", "Mã sinh viên không chính xác");
         }
         else{
             if(std.IsActive == false){
@@ -59,20 +59,20 @@ public class TinHocVanPhongController : Controller
             else if(String.Compare(LocDau(std.FullName.Trim()),LocDau(studentName), true)!=0){
                 ModelState.AddModelError("", "Họ tên sinh viên không chính xác.");
             }
-            else if(subGroup.IndexOf(subjectGroup)<0 || String.Compare(std.SubjectGroup, subjectGroup,true)!=0 || subjectGroup.Length != 3){
+            else if(subGroup.IndexOf(subjectGroup)<0 || String.Compare(std.SubjectGroup, subjectGroup,true)!=0){
                 ModelState.AddModelError("", "Nhóm môn học không chính xác.");
             }
-            else if(ct.IndexOf(caThi)<0 || caThi.Length != 3){
-                ModelState.AddModelError("", "Ca thi không chính xác." + caThi + "-" + ct.IndexOf(caThi) + "-" + caThi.Length);
+            else if(ct.IndexOf(caThi)<0){
+                ModelState.AddModelError("", "Ca thi không chính xác.");
             }
             else{
-                var stdRegisted = _context.DangKyThi.Where(m => m.StudentID == studentID && m.Subject == "THVPNC").FirstOrDefault();
+                var stdRegisted = _context.DangKyThi.Where(m => m.StudentID == studentID && m.Subject == "JavaOOP").FirstOrDefault();
                 if(stdRegisted != null) {
                     ModelState.AddModelError("", "Sinh viên đã đăng ký ca thi");
                 }
                 else{
                     //kiem tra xem so luong dang ky da full chua
-                    var checkCaThi = _context.CaThi.Where(m => m.CaThiName == caThi && m.Subject == "THVPNC").FirstOrDefault();
+                    var checkCaThi = _context.CaThi.Where(m => m.CaThiName == caThi && m.Subject == "JavaOOP").FirstOrDefault();
                     // neu chua co du lieu trong bang ca thi thi can them vao
                     if(checkCaThi== null)
                     {
@@ -80,9 +80,9 @@ public class TinHocVanPhongController : Controller
                         {
                             CaThi ctnew = new CaThi();
                             ctnew.CaThiName = caThi;
-                            ctnew.MaxValue = 80;
+                            ctnew.MaxValue = 110;
                             ctnew.RegistedValue = 1;
-                            ctnew.Subject = "THVPNC";
+                            ctnew.Subject = "JavaOOP";
                             _context.CaThi.Add(ctnew);
                             await _context.SaveChangesAsync();
                             ViewBag.thongBao = "Đăng ký thi thành công";
@@ -125,7 +125,7 @@ public class TinHocVanPhongController : Controller
             dkt.SubjectGroup = sgroup;
             dkt.IsActive = true;
             dkt.CaThi = cthi;
-            dkt.Subject = "THVPNC";
+            dkt.Subject = "JavaOOP";
             _context.DangKyThi.Add(dkt);
             _context.SaveChangesAsync();
             return true;
@@ -164,7 +164,7 @@ public class TinHocVanPhongController : Controller
         return str;    
     }
     private void DisplayNumberRegisted(){
-        var cathiList = _context.CaThi.OrderBy(m => m.CaThiName).Where(m => m.Subject == "THVPNC").ToList();
+        var cathiList = _context.CaThi.OrderBy(m => m.CaThiName).Where(m => m.Subject == "JavaOOP").ToList();
         if(cathiList.Count > 0){
             var ca1 = cathiList.Where(m => m.CaThiName == "Ca1").FirstOrDefault();
             if(ca1!=null){
@@ -179,6 +179,83 @@ public class TinHocVanPhongController : Controller
             }
             else{
                 ViewBag.ca2 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca3 = cathiList.Where(m => m.CaThiName == "Ca3").FirstOrDefault();
+            if(ca3!=null){
+                ViewBag.ca3 = ca3.RegistedValue + "/" +ca3.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca3 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca4 = cathiList.Where(m => m.CaThiName == "Ca4").FirstOrDefault();
+            if(ca4!=null){
+                ViewBag.ca4 = ca4.RegistedValue + "/" +ca4.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca4 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca5 = cathiList.Where(m => m.CaThiName == "Ca5").FirstOrDefault();
+            if(ca5!=null){
+                ViewBag.ca5 = ca5.RegistedValue + "/" +ca5.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca5 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca6 = cathiList.Where(m => m.CaThiName == "Ca6").FirstOrDefault();
+            if(ca6!=null){
+                ViewBag.ca6 = ca6.RegistedValue + "/" +ca6.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca6 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca7 = cathiList.Where(m => m.CaThiName == "Ca7").FirstOrDefault();
+            if(ca7!=null){
+                ViewBag.ca7 = ca7.RegistedValue + "/" +ca7.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca7 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca8 = cathiList.Where(m => m.CaThiName == "Ca8").FirstOrDefault();
+            if(ca8!=null){
+                ViewBag.ca8 = ca8.RegistedValue + "/" +ca8.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca8 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca9 = cathiList.Where(m => m.CaThiName == "Ca9").FirstOrDefault();
+            if(ca9!=null){
+                ViewBag.ca9 = ca9.RegistedValue + "/" +ca9.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca9 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca10 = cathiList.Where(m => m.CaThiName == "Ca10").FirstOrDefault();
+            if(ca10!=null){
+                ViewBag.ca10 = ca10.RegistedValue + "/" +ca10.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca10 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca11 = cathiList.Where(m => m.CaThiName == "Ca11").FirstOrDefault();
+            if(ca11!=null){
+                ViewBag.ca11 = ca11.RegistedValue + "/" +ca11.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca11 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca12 = cathiList.Where(m => m.CaThiName == "Ca12").FirstOrDefault();
+            if(ca12!=null){
+                ViewBag.ca12 = ca12.RegistedValue + "/" +ca12.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca12 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca13 = cathiList.Where(m => m.CaThiName == "Ca13").FirstOrDefault();
+            if(ca13!=null){
+                ViewBag.ca13 = ca13.RegistedValue + "/" +ca13.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca13 = "Chưa có Sinh Viên đăng ký";
             }
         }
     }

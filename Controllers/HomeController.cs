@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using JavaExamFinal.Models;
 using JavaExamFinal.Data;
 using JavaExamFinal.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace JavaExamFinal.Controllers;
 
@@ -17,6 +18,26 @@ public class HomeController : Controller
     {
         _logger = logger;
         _context = context;
+    }
+    public async Task<IActionResult> ChuanHoaDuLieu()
+    {
+        var listCaThi = await _context.CaThi.ToListAsync();
+        if(listCaThi.Count() > 0)
+        {
+            for (int i = 0; i < listCaThi.Count; i++)
+            {
+                //dem danh sach da dang ky trong dang ky thi theo cathi, hoc phan
+                var registedValue = await _context.DangKyThi.Where(m => m.CaThi == listCaThi[i].CaThiName && m.Subject == listCaThi[i].Subject).CountAsync();
+                //update thong tin da dang ky vao cathi
+                var caThiUpdate = await _context.CaThi.FindAsync(listCaThi[i].CaThiID);
+                caThiUpdate.RegistedValue = registedValue;
+                _context.Update(caThiUpdate);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index","Admin");
+        }
+        
+        return RedirectToAction("Index");
     }
     
     public IActionResult Index()

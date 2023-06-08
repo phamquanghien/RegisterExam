@@ -9,8 +9,8 @@ public class ThuongMaiDienTuController : Controller
 {
     private readonly ApplicationDbContext _context;
     private readonly ILogger<ThuongMaiDienTuController> _logger;
-    private string subGroup = "150,151,152,154,155,160";
-    private string ct =  "Ca1, Ca2, Ca3, Ca4";
+    private string subGroup = "10,11,12,13,14,15,16,17,18,19,20,21,22";
+    private string ct =  "Ca1, Ca2, Ca3, Ca4, Ca5, Ca6, Ca7, Ca8";
 
     public ThuongMaiDienTuController(ILogger<ThuongMaiDienTuController> logger, ApplicationDbContext context)
     {
@@ -192,6 +192,33 @@ public class ThuongMaiDienTuController : Controller
             }
             else{
                 ViewBag.ca4 = "Chưa có Sinh Viên đăng ký";
+            }var ca5 = cathiList.Where(m => m.CaThiName == "Ca5").FirstOrDefault();
+            if(ca5!=null){
+                ViewBag.ca5 = ca5.RegistedValue + "/" +ca5.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca5 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca6 = cathiList.Where(m => m.CaThiName == "Ca6").FirstOrDefault();
+            if(ca6!=null){
+                ViewBag.ca6 = ca6.RegistedValue + "/" +ca6.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca6 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca7 = cathiList.Where(m => m.CaThiName == "Ca7").FirstOrDefault();
+            if(ca7!=null){
+                ViewBag.ca7 = ca7.RegistedValue + "/" +ca7.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca7 = "Chưa có Sinh Viên đăng ký";
+            }
+            var ca8 = cathiList.Where(m => m.CaThiName == "Ca8").FirstOrDefault();
+            if(ca8!=null){
+                ViewBag.ca8 = ca8.RegistedValue + "/" +ca8.MaxValue + " SV đã đăng ký";
+            }
+            else{
+                ViewBag.ca8 = "Chưa có Sinh Viên đăng ký";
             }
         }
     }

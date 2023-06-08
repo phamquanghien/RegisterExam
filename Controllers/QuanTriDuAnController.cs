@@ -59,10 +59,10 @@ public class QuanTriDuAnController : Controller
             else if(String.Compare(LocDau(std.FullName.Trim()),LocDau(studentName), true)!=0){
                 ModelState.AddModelError("", "Họ tên sinh viên không chính xác.");
             }
-            else if(subGroup.IndexOf(subjectGroup)<0 || String.Compare(std.SubjectGroup, subjectGroup,true)!=0 || subjectGroup.Length != 3){
+            else if(subGroup.IndexOf(subjectGroup)<0 || String.Compare(std.SubjectGroup, subjectGroup,true)!=0){
                 ModelState.AddModelError("", "Nhóm môn học không chính xác.");
             }
-            else if(ct.IndexOf(caThi)<0 || caThi.Length != 3){
+            else if(ct.IndexOf(caThi)<0){
                 ModelState.AddModelError("", "Ca thi không chính xác." + caThi + "-" + ct.IndexOf(caThi) + "-" + caThi.Length);
             }
             else{

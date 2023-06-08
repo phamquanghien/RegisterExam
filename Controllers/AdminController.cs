@@ -521,9 +521,9 @@ namespace JavaExamFinal.Controllers
                                 break;
                                 default: break;
                             }
-                        } else if(Subject == "QTDA")
+                        } else if(Subject == "TMDT")
                         {
-                            worksheet.Cells["A1"].Value = "Thi kết thúc học phần: Quản trị Dự án Công nghệ Thông tin";
+                            worksheet.Cells["A1"].Value = "Thi kết thúc học phần: Thương mại Điện tử";
                             switch(CaThi){
                                 case "Ca1" : worksheet.Cells["A2"].Value = "Ca 1 (Thời gian: 8:00 AM - 8:50AM)";
                                 break;
@@ -535,7 +535,7 @@ namespace JavaExamFinal.Controllers
                                 break;
                                 default: break;
                             }
-                        } else if(Subject == "TMDT")
+                        } else if(Subject == "QTDA")
                         {
                             worksheet.Cells["A1"].Value = "Thi kết thúc học phần: Quản trị Dự án Công nghệ Thông tin";
                             switch(CaThi){
@@ -544,8 +544,6 @@ namespace JavaExamFinal.Controllers
                                 case "Ca2" : worksheet.Cells["A2"].Value = "Ca 2 (Thời gian: 14:30 PM - 15:20PM)";
                                 break;
                                 case "Ca3" : worksheet.Cells["A2"].Value = "Ca 3 (Thời gian: 15:30 PM - 16:20PM)";
-                                break;
-                                case "Ca4" : worksheet.Cells["A2"].Value = "Ca 4 (Thời gian: 16:30 PM - 17:20PM)";
                                 break;
                                 default: break;
                             }

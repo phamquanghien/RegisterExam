@@ -35,7 +35,7 @@ namespace JavaExamFinal.Controllers
                      message = "Sinh viên: " + dkSuccess.FullName + "(" + dkSuccess.StudentID + ") đã đăng ký thi thành công môn ";
                     if(dkSuccess.Subject == "THVPNC") message += "Tin học Văn phòng Nâng cao - " + dkSuccess.CaThi;
                     else if(dkSuccess.Subject == "TMDT") message += "Thương mại Điện tử - " + dkSuccess.CaThi;
-                    else if(dkSuccess.Subject == "QTDA") message += "Quản trị Dự án CNTT - " + dkSuccess.CaThi;
+                    else if(dkSuccess.Subject == "JavaOOP") message += "Lập trình Hướng Đối tượng với java - " + dkSuccess.CaThi;
                 }
                 
             }
